@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f8dce2" />
+  <title>A little question for Khushii 💗</title>
+  <style>
+    :root { --pink: #d95e7c; --deep-pink: #c94f70; --ink: #75434f; }
+    * { box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; margin: 0; }
+    body {
+      width: 100vw;
+      height: 100svh;
+      overflow: hidden;
+      color: var(--ink);
+      font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+      background-color: #f8dce2;
+      background-image:
+        linear-gradient(90deg, rgba(246, 194, 206, 0.45) 50%, transparent 50%),
+        linear-gradient(rgba(246, 194, 206, 0.45) 50%, transparent 50%);
+      background-size: 44px 44px;
+    }
+
+    .bg-art {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100svh;
+      object-fit: cover;
+      object-position: center;
+      pointer-events: none;
+      user-select: none;
+      z-index: 0;
+    }
+
+    .screen {
+      height: 100svh;
+      width: 100vw;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      padding: 16px;
+      z-index: 1;
+    }
+
+    #invite { isolation: isolate; }
+
+    .card-stage {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: min(86vw, 720px);
+      aspect-ratio: 4 / 3;
+      max-height: 82svh;
+    }
+
+    .lace-card {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      filter: drop-shadow(0 14px 28px rgba(158, 100, 117, 0.25));
+      user-select: none;
+      pointer-events: none;
+    }
+
+    .invite-content {
+      position: relative;
+      width: 66%;
+      height: 62%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      z-index: 2;
+      padding: 10px;
+    }
+
+    h1 {
+      margin: 0 auto 24px;
+      color: #a8425e;
+      font-family: Georgia, serif;
+      font-size: clamp(19px, 2.5vw, 31px);
+      line-height: 1.38;
+      font-weight: 700;
+      text-wrap: balance;
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.9);
+    }
+
+    .buttons {
+      position: relative;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      min-height: 68px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 999px;
+      cursor: pointer;
+      font-weight: 800;
+      font-family: inherit;
+      box-shadow: 0 5px 0 rgba(169, 68, 97, 0.2), 0 8px 18px rgba(156, 83, 99, 0.22);
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    button:active {
+      transform: translateY(2px) scale(0.98);
+      box-shadow: 0 2px 0 rgba(169, 68, 97, 0.2);
+    }
+
+    #yes {
+      padding: 14px 36px;
+      color: white;
+      background: linear-gradient(135deg, #f18ba4, #d84f76);
+      font-size: clamp(18px, 2.1vw, 25px);
+      min-width: 138px;
+      position: relative;
+      z-index: 3;
+    }
+
+    #yes:hover { transform: translateY(-3px) scale(1.04); }
+
+    #no {
+      padding: 9px 19px;
+      color: #bd5571;
+      background: #fff7f8;
+      border: 1px solid #efb9c7;
+      font-size: clamp(13px, 1.3vw, 15px);
+      position: absolute;
+      z-index: 10;
+      box-shadow: 0 3px 10px rgba(156, 83, 99, 0.16);
+      white-space: nowrap;
+    }
+
+    #thanks { display: none; }
+
+    .thankyou-wrap {
+      position: relative;
+      width: min(88vw, 820px);
+    }
+
+    .thankyou-art {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 4px;
+      box-shadow: 0 12px 35px rgba(155, 82, 96, 0.22);
+    }
+
+    .thankyou-message {
+      position: absolute;
+      left: 50%;
+      top: 61%;
+      transform: translate(-50%, -50%);
+      width: 82%;
+      text-align: center;
+      color: #d75e7b;
+      font-family: Georgia, serif;
+      font-size: clamp(25px, 5vw, 46px);
+      font-weight: bold;
+      text-shadow: 0 2px 0 #fff, 0 4px 12px rgba(184, 90, 113, 0.2);
+    }
+
+    .tiny-note {
+      position: absolute;
+      bottom: 12px;
+      color: #a65b70;
+      font-size: 11px;
+      opacity: 0.8;
+    }
+
+    .particle {
+      position: fixed;
+      top: -45px;
+      z-index: 30;
+      pointer-events: none;
+      animation: fall var(--duration, 4s) linear forwards;
+      filter: drop-shadow(0 2px 2px rgba(157, 82, 102, 0.22));
+      will-change: transform, opacity;
+    }
+
+    @keyframes fall {
+      0% { transform: translate3d(0, -5vh, 0) rotate(0deg) scale(0.75); opacity: 0; }
+      10% { opacity: 1; }
+      100% { transform: translate3d(var(--drift, 35px), 110svh, 0) rotate(560deg) scale(1.2); opacity: 0; }
+    }
+
+    @media (max-width: 640px) {
+      .card-stage { width: 94vw; aspect-ratio: 4 / 3; }
+      .invite-content { width: 72%; height: 68%; }
+      h1 { margin-bottom: 14px; font-size: clamp(16px, 4.2vw, 22px); }
+      #yes { padding: 11px 24px; min-width: 110px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <img class="bg-art" src="assets/pink-background.jpg" alt="" aria-hidden="true" />
+
+  <main id="invite" class="screen">
+    <div class="card-stage" id="cardStage">
+      <img class="lace-card" id="laceCard" src="assets/lace-card.png" alt="White lace invitation card with pink bows" />
+      <section class="invite-content" id="inviteContent" aria-label="Trip invitation">
+        <h1>wilL yOu come oVEr to a trip with me, cUtiepie...?</h1>
+        <div class="buttons">
+          <button id="yes" type="button">Yes 💗</button>
+        </div>
+        <button id="no" type="button" aria-label="No">No 🙈</button>
+      </section>
+    </div>
+    <div class="tiny-note">a tiny question, just for you ♡</div>
+  </main>
+
+  <main id="thanks" class="screen" aria-live="polite">
+    <div class="thankyou-wrap">
+      <img class="thankyou-art" src="assets/thank-you-card.jpg" alt="Pink gingham Thank You card with a ribbon" />
+      <div class="thankyou-message">Thank you Khushiiiii 💗</div>
+    </div>
+  </main>
+
+  <script>
+    const noButton = document.getElementById("no");
+    const yesButton = document.getElementById("yes");
+    const inviteContent = document.getElementById("inviteContent");
+    const invite = document.getElementById("invite");
+    const thanks = document.getElementById("thanks");
+
+    function placeNoInitially() {
+      const box = inviteContent.getBoundingClientRect();
+      const yesRect = yesButton.getBoundingClientRect();
+      const initialLeft = Math.min(
+        box.width - noButton.offsetWidth - 8,
+        Math.max(8, yesRect.right - box.left + 16)
+      );
+      const initialTop = Math.min(
+        box.height - noButton.offsetHeight - 8,
+        Math.max(8, yesRect.top - box.top + (yesRect.height - noButton.offsetHeight) / 2)
+      );
+      noButton.style.left = `${initialLeft}px`;
+      noButton.style.top = `${initialTop}px`;
+    }
+
+    function moveNoButton() {
+      const margin = 8;
+      const box = inviteContent.getBoundingClientRect();
+      const yesRect = yesButton.getBoundingClientRect();
+
+      const minX = margin;
+      const minY = margin;
+      const maxX = Math.max(minX, box.width - noButton.offsetWidth - margin);
+      const maxY = Math.max(minY, box.height - noButton.offsetHeight - margin);
+
+      const yesLeft = yesRect.left - box.left - 16;
+      const yesRight = yesRect.right - box.left + 16;
+      const yesTop = yesRect.top - box.top - 12;
+      const yesBottom = yesRect.bottom - box.top + 12;
+
+      let x, y, tries = 0;
+      do {
+        x = minX + Math.random() * Math.max(0, maxX - minX);
+        y = minY + Math.random() * Math.max(0, maxY - minY);
+        tries++;
+      } while (
+        tries < 40 &&
+        x < yesRight &&
+        x + noButton.offsetWidth > yesLeft &&
+        y < yesBottom &&
+        y + noButton.offsetHeight > yesTop
+      );
+
+      noButton.style.left = `${x}px`;
+      noButton.style.top = `${y}px`;
+    }
+
+    window.addEventListener("load", placeNoInitially);
+    noButton.addEventListener("pointerenter", moveNoButton);
+    noButton.addEventListener("pointerdown", (event) => { event.preventDefault(); moveNoButton(); });
+    noButton.addEventListener("click", (event) => { event.preventDefault(); moveNoButton(); });
+    noButton.addEventListener("focus", moveNoButton);
+    window.addEventListener("resize", placeNoInitially);
+
+    function shower() {
+      const symbols = ["💗", "💕", "💖", "💘", "❤️", "😘", "💋", "♡"];
+      const particle = document.createElement("span");
+      particle.className = "particle";
+      particle.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+      particle.style.left = `${Math.random() * 100}vw`;
+      particle.style.fontSize = `${18 + Math.random() * 24}px`;
+      particle.style.setProperty("--duration", `${3.2 + Math.random() * 3.2}s`);
+      particle.style.setProperty("--drift", `${Math.random() * 160 - 80}px`);
+      document.body.appendChild(particle);
+      particle.addEventListener("animationend", () => particle.remove());
+    }
+
+    yesButton.addEventListener("click", () => {
+      invite.style.display = "none";
+      thanks.style.display = "flex";
+      for (let i = 0; i < 35; i++) setTimeout(shower, i * 75);
+      window.setInterval(shower, 170);
+    });
+  </script>
+</body>
+</html>
